@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Math Language Online</title>
+</head>
+<body>
+    <h1>My Math Language Online</h1>
+    <textarea id="codebox" rows="10" cols="50" placeholder="add: 10, 20&#10;integrate: x^2"></textarea><br><br>
+    <button onclick="runCode()">Run</button>
+    <h3>Output:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        async function runCode() {
+            let codeText = document.getElementById('codebox').value;
+            let response = await fetch('/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: codeText })
+            });
+            let result = await response.json();
+            document.getElementById('output').innerText = result.output;
+        }
+    </script>
+</body>
+</html>
